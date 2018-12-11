@@ -25,6 +25,8 @@ class Register extends React.Component {
             data: this.state})
             .then(res => {
                 localStorage.setItem('userToken',res.data.token);
+                localStorage.setItem('userName', res.data.user.username);
+                localStorage.setItem('userID', res.data.user.id);
                 this.props.logIn();
                 this.props.history.push('/quizzes');
             })

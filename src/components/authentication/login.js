@@ -21,6 +21,8 @@ class Login extends React.Component {
             .then(res => {
                 console.log(res);
                 localStorage.setItem('userToken',res.data.token);
+                localStorage.setItem('userName', res.data.user.username);
+                localStorage.setItem('userID', res.data.user.id)
                 this.props.logIn();
                 this.props.history.push('/quizzes');
             })
