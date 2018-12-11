@@ -30,11 +30,21 @@ class AddQuestion extends React.Component{
             myQuestion.option3 = this.state.option3;
         }
         if(this.state.option4.length){
-            myQuestion.option4 = this.state.option3;
+            myQuestion.option4 = this.state.option4;
         }
         axios
             .post(`https://lambda-study-app.herokuapp.com/api/quizzes/${this.props.match.params.id}/questions`, myQuestion, {headers: {authorization: localStorage.getItem('userToken')}})
-            .then(res=>console.log(res))
+            .then(res=>{
+                console.log(res);
+                this.setState({        
+                    question: '',
+                    option1: '',
+                    option2: '',
+                    option3: '',
+                    option4: '',
+                    answer: 1});
+                this.props.getQuestions();
+                })
             .catch(err=>console.log(err))
     }
 
