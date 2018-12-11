@@ -4,17 +4,25 @@ import styled from 'styled-components';
 
 class Quizzes extends React.Component {
     state = {
-        quizzes: []
+        quizzes: [],
+        myQuizzes: false
     }
 
     componentDidMount() {
+        this.getQuizzes();
+    }
+
+    getQuizzes = () => {
         axios
-            .get('https://lambda-study-app.herokuapp.com/api/quizzes')
-            .then(res=> {
-                console.log(res.data);
-                this.setState({quizzes: res.data})
+        .get('https://lambda-study-app.herokuapp.com/api/quizzes')
+        .then(res=> {
+            console.log(res.data);
+            this.setState({
+                quizzes: res.data,
+                myQuizzes: false
                 })
-            .catch(err=>console.log(err))
+            })
+        .catch(err=>console.log(err))
     }
 
     myQuizzes = () => {
@@ -23,15 +31,18 @@ class Quizzes extends React.Component {
         }
         else{
             this.setState({
-                quizzes: this.state.quizzes.filter(quiz => quiz.author === localStorage.getItem('userName'))
+                quizzes: this.state.quizzes.filter(quiz => quiz.author === localStorage.getItem('userName')),
+                myQuizzes: true
             })
         }
     }
 
+
+
     render() {
         return (
             <div>
-                <button onClick={this.myQuizzes}>My Quizzes</button>
+                <button onClick={this.state.myQuizzes? this.getQuizzes:this.myQuizzes}>{this.state.myQuizzes? 'Get All Quizzes':'Get My Quizzes'}</button>
                 {this.state.quizzes.map(quiz => (
                     <QuizContainer onClick={()=>this.props.history.push(`/quiz/${quiz.id}`)} key={quiz.id}>
                         <div className='quiz-title'>

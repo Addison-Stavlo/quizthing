@@ -13,17 +13,22 @@ class AddQuestion extends React.Component{
     }
     componentDidMount() {
         if(this.props.edit){
-            this.setState({
+            let newState = {
                 question: this.props.question.question,
                 option1: this.props.question.options[0],
                 option2: this.props.question.options[1],
-                option3: this.props.question.options[2],
-                option4: this.props.question.options[3],
                 answer: 0
-            })
+            }
+            if(this.props.question.options[2]){
+                newState.option3 = this.props.question.options[2];
+            }
+            if(this.props.question.options[3]){
+                newState.option4 = this.props.question.options[3];
+            }
+            this.setState(newState)
         }
     }
-
+    
     handleChange = (ev) => {
         this.setState({
             [ev.target.name]: ev.target.value
@@ -81,7 +86,7 @@ class AddQuestion extends React.Component{
         axios.patch(`https://lambda-study-app.herokuapp.com/api/quizzes/${this.props.match.params.id}/questions/${this.props.question.id}/edit`,this.stageQuestion(),{headers: {authorization: localStorage.getItem('userToken')}})
             .then(res=>{
                 console.log(res);
-                this.props.getQuestions();
+                alert('question updates successfully');
             })
             .catch(err=>console.log(err))
     }
