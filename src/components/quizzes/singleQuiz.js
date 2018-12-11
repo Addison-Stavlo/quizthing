@@ -9,12 +9,15 @@ class SingleQuiz extends React.Component {
     componentDidMount() {
         axios
             .get(`https://lambda-study-app.herokuapp.com/api/quizzes/${this.props.match.params.id}`)
-            .then(res=>console.log(res))
+            .then(res=>{
+                this.setState({quiz: res.data})
+                console.log(res)
+            })
     }
 
     render(){
         return(
-            <div>A Quiz</div>
+            <div>A Quiz: {this.state.quiz.title}</div>
         )
     }
 }

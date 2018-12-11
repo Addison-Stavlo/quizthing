@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import { StyledForm } from '../styledcomps/styledcomps';
 
 class CreateQuiz extends React.Component {
     state = {
@@ -23,11 +24,11 @@ class CreateQuiz extends React.Component {
 
     render() {
         return (
-            <form onSubmit={this.addQuiz}>
+            <StyledForm onSubmit={this.addQuiz}>
                 <input name='title' placeholder='title' onChange={this.handleChange} value={this.state.title} />
                 <input name='topic' placeholder='topic' onChange={this.handleChange} value={this.state.topic} />
                 <button type='submit'>Add a Quiz</button>
-            </form>
+            </StyledForm>
         )
     }
 }

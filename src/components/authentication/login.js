@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import { StyledForm } from '../styledcomps/styledcomps';
 
 class Login extends React.Component {
     state = {
@@ -18,9 +19,10 @@ class Login extends React.Component {
             url: "https://lambda-study-app.herokuapp.com/api/auth/login",
             data: this.state})
             .then(res => {
-                console.log(res.data);
+                console.log(res);
                 localStorage.setItem('userToken',res.data.token);
-                this.props.history.push('/quizzes')
+                this.props.logIn();
+                this.props.history.push('/quizzes');
             })
             .catch(err=>console.log(err));
     } 
@@ -28,12 +30,12 @@ class Login extends React.Component {
     render() {
         return(
 
-            <form onSubmit={this.logIn}>
+            <StyledForm onSubmit={this.logIn}>
             <h1>Log In</h1>
                 <input name='email' placeholder='email' onChange={this.handleChange} value={this.state.email} />
                 <input name='password' placeholder='password' onChange={this.handleChange} value={this.state.password} />
                 <button type='submit'>Log In</button>
-            </form>
+            </StyledForm>
         )
     }
 }
