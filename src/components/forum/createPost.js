@@ -17,7 +17,7 @@ class CreatePost extends React.Component {
     createPost = (ev) => {
         ev.preventDefault();
         axios
-            .post('https://lambda-study-app.herokuapp.com/api/posts', this.state, {authorization: localStorage.getItem('userToken')})
+            .post('https://lambda-study-app.herokuapp.com/api/posts', this.state, {headers: {authorization: localStorage.getItem('userToken')}})
             .then(res=>console.log(res))
             .catch(err=>console.log(err))
     }

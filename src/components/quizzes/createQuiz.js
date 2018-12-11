@@ -14,10 +14,10 @@ class CreateQuiz extends React.Component {
 
     addQuiz = (ev) => {
         ev.preventDefault();
-        axios.post(`https://lambda-study-app.herokuapp.com/api/quizzes`, this.state, {authorization: localStorage.getItem('userToken')})
+        axios.post(`https://lambda-study-app.herokuapp.com/api/quizzes`, this.state, {headers: {authorization: localStorage.getItem('userToken')}})
           .then(res=>{
             console.log(res);
-            // this.props.history.push('quizzes')
+            this.props.history.push('quizzes');
         })
           .catch(err=>console.log(err))
     }
