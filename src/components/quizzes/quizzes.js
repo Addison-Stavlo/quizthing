@@ -17,10 +17,21 @@ class Quizzes extends React.Component {
             .catch(err=>console.log(err))
     }
 
+    myQuizzes = () => {
+        if(!localStorage.getItem('userName')){
+            alert('please log in to access your posted quizzes')
+        }
+        else{
+            this.setState({
+                quizzes: this.state.quizzes.filter(quiz => quiz.author === localStorage.getItem('userName'))
+            })
+        }
+    }
 
     render() {
         return (
             <div>
+                <button onClick={this.myQuizzes}>My Quizzes</button>
                 {this.state.quizzes.map(quiz => (
                     <QuizContainer onClick={()=>this.props.history.push(`/quiz/${quiz.id}`)} key={quiz.id}>
                         <div className='quiz-title'>

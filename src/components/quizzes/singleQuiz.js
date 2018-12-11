@@ -70,7 +70,7 @@ class SingleQuiz extends React.Component {
                     </>
                     : <p>Questions...</p>}
                 {this.state.questions.map(question=>(
-                    <Question question={question} />))}
+                    <Question toEdit={this.state.toEdit} question={question} match={this.props.match} getQuestions={this.getQuestions}/>))}
             </div>
         )
     }

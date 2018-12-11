@@ -1,5 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
+import axios from 'axios';
+import AddQuestion from './addQuestion';
 
 // class Question extends React.Component {
     
@@ -8,24 +10,39 @@ import styled from 'styled-components';
 
 class Question extends React.Component {
     state = {
-        answer: 0
+        option: 0
     }
 
     handleChange = (ev) => {
         this.setState({[ev.target.name]: ev.target.value})
     }  
 
+    submitAnswer = (ev) => {
+        ev.preventDefault();
+        console.log(this.state)
+        axios.patch(`https://lambda-study-app.herokuapp.com/api/quizzes/${this.props.match.params.id}/questions/${this.props.question.id}`,this.state,{headers: {authorization: localStorage.getItem('userToken')}})
+            .then(res=>console.log(res.data.correct))
+            .catch(err=>console.log(err))
+    }
+
+
+
     render() {
         return (
             <StyledQuestion>
-        
-                <form onChange={this.handleChange}>
-                    <h3>{this.props.question.question}</h3>
-                    {this.props.question.options.map((option,index) => (
-                        <a key={option}>
-                            <input type='radio' name='answer' value={index+1} />{option}
-                        </a>))}
-                </form>
+                {this.props.toEdit? 
+                    <AddQuestion edit question={this.props.question} match={this.props.match} getQuestions={this.props.getQuestions}/>
+                    :
+                    <form onChange={this.handleChange} onSubmit={this.submitAnswer}>
+                        <h3>{this.props.question.question}</h3>
+                        {this.props.question.options.map((option,index) => (
+                            <a key={index+1}>
+                                <input type='radio' name='option' value={index+1} />{option}
+                            </a>))}
+                        <button type='submit'>Submit Answer (testing console)</button>
+                    </form>
+                    }
+
             </StyledQuestion>
         )
     }
