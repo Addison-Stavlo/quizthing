@@ -23,6 +23,8 @@ class App extends Component {
 
   logOut = () => {
     localStorage.removeItem('userToken');
+    localStorage.removeItem('userName');
+    localStorage.removeItem('userID');
     this.setState({isLoggedIn: false});
   }
   logIn = () => {
