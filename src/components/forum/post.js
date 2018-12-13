@@ -50,22 +50,28 @@ export default class Post extends React.Component {
                     <h1>{this.props.post.title}</h1>
                     <p>by {this.props.post.author}</p>
                 </div>
-                <p>{this.props.post.body}</p>
+                <div className='post-body'>{this.props.post.body}</div>
 
-                <div className='comments-box'>
-                {this.state.comments.map(comment=>(
-                    <div className='comment-holder'>
-                        <h4>{comment.author}</h4>
-                        <p>{comment.text}</p>
-                        {comment.author === localStorage.getItem('userName') ? 
-                        <button onClick={()=>this.deleteComment(comment.id)}>Delete</button> : null}
+                {this.state.comments.length? 
+                    <div className='comments-box'>
+                    <h3 className='comments-header'>Comments</h3>
+                    {this.state.comments.map(comment=>(
+                        <div className='comment-holder'>
+                            <div className='comment-holder-content'>
+                                <h4>{comment.author}</h4>
+                                <p>{comment.text}</p>
+                            </div>
+                            {comment.author === localStorage.getItem('userName') ? 
+                            <button className='delete-comment' onClick={()=>this.deleteComment(comment.id)}>Delete</button> : null}
+                        </div>
+                    ))}
                     </div>
-                ))}
+                :null }
+
                 <form onSubmit={this.addComment}>
                     <input name='comment' placeholder='new comment...' value={this.state.comment} onChange={this.handleChange}/>
                     <button type='submit'>Add Comment</button>
                 </form>
-                </div>
             </PostContainer>
     )
 }
@@ -73,38 +79,83 @@ export default class Post extends React.Component {
 const PostContainer = styled.section`
     margin: 20px auto;
     width: 500px;
-    border: 1px solid black;
+    border: 4px ridge lightgray;
     border-radius: 20px;
-    padding: 0 50px 50px;
+    padding: 0 50px 30px;
     box-shadow: 10px 10px 10px 0 lightgray;
 
+    .date {
+        text-align: right;
+        font-size: 12px;
+        margin: 0;
+    }
 
     .post-title {
         display: flex;
         align-items: baseline;
+        padding-left: 10px;
 
         h1 {
-            margin: 0;
+            margin: 10px 0 0;
         }
         p {
             margin: 0 0 0 20px;
         }
     }
-    .date {
-        font-size: 12px;
-        margin: 0;
+    .post-body {
+        border: 3px ridge lightgray;
+        padding: 20px 10px 10px;
+        border-radius: 10px;
+        margin-bottom: 15px;
     }
     .comments-box {
-        border: 1px solid red;
+        border: 3px inset lightgray;
+        padding: 5px;
+        border-radius: 5px;
+
+        .comments-header {
+            margin: 0;
+            border-bottom: 3px ridge lightgray;
+        }
+
         .comment-holder {
-            border: 1px solid blue;
+            border-bottom: 1px inset lightgray;
             display: flex;
             align-items: baseline;
+            justify-content: space-between;
 
             p {
-                margin-left: 10px;
+                margin: 0 10px;
+                display: inline-block;
+            }
+            h4 {
+                margin: 10px 0 5px 5px;
+                display: inline-block;
             }
         }
+        .comment-holder:last-of-type {
+            border-bottom: none;
+        }
     }
+    form {
+        margin-top: 15px;
+        width: 100%;
+
+        box-sizing: border-box;
+        display: flex;
+        align-items: center;
+
+            input {
+                width: 75%;
+                padding: 5px 10px;
+                box-sizing: border-box;
+                border: 3px inset lightgray;
+                border-radius: 5px;
+            }
+            button {
+                width: 25%;
+                height: 25px;
+            }
+        }
 
 `
