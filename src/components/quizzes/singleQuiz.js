@@ -20,16 +20,9 @@ class SingleQuiz extends React.Component {
     }
     
     componentDidMount() {
-        axios
-            .get(`https://lambda-study-app.herokuapp.com/api/quizzes/${this.props.match.params.id}`,{headers: {authorization: localStorage.getItem('userToken')}})
-            .then(res=>{
-                this.setState({quiz: res.data})
-                console.log(res)
-                if(res.data.author.username === localStorage.getItem('userName')){
-                    this.setState({isOwned: true})
-                }
-            }).then(this.getQuestions())
+        this.getQuiz();
     }
+
     componentDidUpdate(prevProps,prevState) {
         if(this.state.grading && this.state.grades.length === this.state.questions.length){
             this.setState({grading: false});
@@ -45,9 +38,23 @@ class SingleQuiz extends React.Component {
             axios.patch(`https://lambda-study-app.herokuapp.com/api/quizzes/${this.props.match.params.id}`,{score: numCorrect},{headers: {authorization: localStorage.getItem('userToken')}})
                 .then(res=>{
                     console.log(res);
+                    this.getQuiz();
                 })
         }
     }
+        
+    getQuiz = () => {
+        axios
+        .get(`https://lambda-study-app.herokuapp.com/api/quizzes/${this.props.match.params.id}`,{headers: {authorization: localStorage.getItem('userToken')}})
+        .then(res=>{
+            this.setState({quiz: res.data})
+            console.log(res)
+            if(res.data.author.username === localStorage.getItem('userName')){
+                this.setState({isOwned: true})
+            }
+        }).then(this.getQuestions())
+    }
+
     sortQuestions = () => {
         this.setState({
             questions: this.state.questions.sort((q1,q2)=>{
@@ -109,7 +116,7 @@ class SingleQuiz extends React.Component {
             .catch(err=>console.log(err))
     }
     startGrading = () => {
-        this.setState({grading: true})
+        this.setState({grading: true, grades: []})
     }
 
     render(){
