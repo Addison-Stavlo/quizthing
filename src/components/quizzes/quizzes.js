@@ -14,7 +14,7 @@ class Quizzes extends React.Component {
     }
 
     getQuizzes = () => {
-            let login = null;
+        let login = null;
         if(localStorage.getItem('userToken')){
             login = {headers: {authorization: localStorage.getItem('userToken')}}
         }
@@ -76,6 +76,11 @@ const QuizContainer = styled.section`
     flex-wrap: wrap;
     justify-content: space-between;
     background: ${colors[3]};
+
+    &:hover {
+        background: ${colors[2]};
+        color: white;
+    }
 
     .quiz-title {
         display: flex;

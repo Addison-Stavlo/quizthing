@@ -143,7 +143,7 @@ class SingleQuiz extends React.Component {
                     : <p>Questions...</p>}
                 {this.state.questions.map(question=>(
                     <Question toEdit={this.state.toEdit} question={question} match={this.props.match} getQuestions={this.getQuestions} submitAnswer={this.submitAnswer} grading={this.state.grading}/>))}
-                    <button onClick={this.startGrading}>Submit Grade</button>
+                    <button onClick={this.startGrading}>Submit / Grade</button>
             </div>
         )
     }
