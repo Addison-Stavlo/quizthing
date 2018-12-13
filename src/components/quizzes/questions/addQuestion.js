@@ -83,10 +83,11 @@ class AddQuestion extends React.Component{
 
     editQuestion = (ev) => {
         ev.preventDefault();
-        axios.patch(`https://lambda-study-app.herokuapp.com/api/quizzes/${this.props.match.params.id}/questions/${this.props.question.id}/edit`,this.stageQuestion(),{headers: {authorization: localStorage.getItem('userToken')}})
+        axios.patch(`https://lambda-study-app.herokuapp.com/api/quizzes/${this.props.match.params.id}/questions/${this.props.question.id}`,this.stageQuestion(),{headers: {authorization: localStorage.getItem('userToken')}})
             .then(res=>{
                 console.log(res);
                 alert('question updates successfully');
+                this.props.getQuestions();
             })
             .catch(err=>console.log(err))
     }

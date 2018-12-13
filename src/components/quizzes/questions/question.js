@@ -20,8 +20,8 @@ class Question extends React.Component {
     submitAnswer = (ev) => {
         ev.preventDefault();
         console.log(this.state)
-        axios.patch(`https://lambda-study-app.herokuapp.com/api/quizzes/${this.props.match.params.id}/questions/${this.props.question.id}`,this.state,{headers: {authorization: localStorage.getItem('userToken')}})
-            .then(res=>console.log(res.data.correct))
+        axios.get(`https://lambda-study-app.herokuapp.com/api/quizzes/${this.props.match.params.id}/questions/${this.props.question.id}/response`,{params: this.state},{headers: {authorization: localStorage.getItem('userToken')}})
+            .then(res=>console.log(res))
             .catch(err=>console.log(err))
     }
 
