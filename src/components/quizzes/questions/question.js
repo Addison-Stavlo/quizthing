@@ -25,8 +25,6 @@ class Question extends React.Component {
             .catch(err=>console.log(err))
     }
 
-
-
     render() {
         return (
             <StyledQuestion>

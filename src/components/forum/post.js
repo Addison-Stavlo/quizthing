@@ -33,6 +33,13 @@ export default class Post extends React.Component {
                 this.setState({comment: ''})
             })
     }
+    deleteComment = (id) => {
+        axios.delete(`https://lambda-study-app.herokuapp.com/api/posts/${this.props.post.id}/comments/${id}`,{headers: {authorization: localStorage.getItem('userToken')}})
+            .then(res=>{
+                console.log(res);
+                this.getComments();
+            })
+    }
 
     render(){
         return(
@@ -50,6 +57,8 @@ export default class Post extends React.Component {
                     <div className='comment-holder'>
                         <h4>{comment.author}</h4>
                         <p>{comment.text}</p>
+                        {comment.author === localStorage.getItem('userName') ? 
+                        <button onClick={()=>this.deleteComment(comment.id)}>Delete</button> : null}
                     </div>
                 ))}
                 <form onSubmit={this.addComment}>
