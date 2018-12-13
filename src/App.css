@@ -4,7 +4,8 @@ body {
 
 .App {
   text-align: center;
-  width: 800px;
+  width: 100%;
+  max-width: 750px;
   margin: 0 auto;
   background:white;
   border: 4px solid #DCD9C8;

@@ -17,12 +17,10 @@ class Question extends React.Component {
         this.setState({[ev.target.name]: ev.target.value})
     }  
 
-    submitAnswer = (ev) => {
-        ev.preventDefault();
-        console.log(this.state)
-        axios.get(`https://lambda-study-app.herokuapp.com/api/quizzes/${this.props.match.params.id}/questions/${this.props.question.id}/response`,{params: this.state},{headers: {authorization: localStorage.getItem('userToken')}})
-            .then(res=>console.log(res))
-            .catch(err=>console.log(err))
+    componentDidUpdate(prevProps) {
+        if(this.props.grading && !prevProps.grading){
+            this.props.submitAnswer(this.props.question,this.state);
+        }
     }
 
     render() {
@@ -31,13 +29,12 @@ class Question extends React.Component {
                 {this.props.toEdit? 
                     <AddQuestion edit question={this.props.question} match={this.props.match} getQuestions={this.props.getQuestions}/>
                     :
-                    <form onChange={this.handleChange} onSubmit={this.submitAnswer}>
+                    <form onChange={this.handleChange}>
                         <h3>{this.props.question.question}</h3>
                         {this.props.question.options.map((option,index) => (
                             <a key={index+1}>
                                 <input type='radio' name='option' value={index+1} />{option}
                             </a>))}
-                        <button type='submit'>Submit Answer (testing console)</button>
                     </form>
                     }
 
@@ -48,8 +45,7 @@ class Question extends React.Component {
 
 const StyledQuestion = styled.div`
     /* border: 1px solid black; */
-    width: 80%;
-    max-width: 700px;
+    width: 100%;
     margin: 20px auto;
     display: flex;
     flex-direction: column;

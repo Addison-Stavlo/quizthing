@@ -12,12 +12,16 @@ class SingleQuiz extends React.Component {
         toEdit: false,
         showQuestions: false,
         questions: [],
-        toDelete: false
+        toDelete: false,
+        grading: false,
+        grades: [],
+        myGrade: 0
+        
     }
     
     componentDidMount() {
         axios
-            .get(`https://lambda-study-app.herokuapp.com/api/quizzes/${this.props.match.params.id}`)
+            .get(`https://lambda-study-app.herokuapp.com/api/quizzes/${this.props.match.params.id}`,{headers: {authorization: localStorage.getItem('userToken')}})
             .then(res=>{
                 this.setState({quiz: res.data})
                 console.log(res)
@@ -25,6 +29,24 @@ class SingleQuiz extends React.Component {
                     this.setState({isOwned: true})
                 }
             }).then(this.getQuestions())
+    }
+    componentDidUpdate(prevProps,prevState) {
+        if(this.state.grading && this.state.grades.length === this.state.questions.length){
+            this.setState({grading: false});
+            let numCorrect = 0;
+            this.state.grades.forEach(item=>{
+                if(item.grade){
+                    numCorrect += 1;
+                }
+            })
+            let thisGrade = numCorrect / this.state.questions.length;
+            this.setState({myGrade: thisGrade});
+            alert('You Scored ' + thisGrade*100 + '%');
+            axios.patch(`https://lambda-study-app.herokuapp.com/api/quizzes/${this.props.match.params.id}`,{score: numCorrect},{headers: {authorization: localStorage.getItem('userToken')}})
+                .then(res=>{
+                    console.log(res);
+                })
+        }
     }
     sortQuestions = () => {
         this.setState({
@@ -74,6 +96,22 @@ class SingleQuiz extends React.Component {
             })   
     }
 
+    submitAnswer = (question, option) => {
+        console.log(this.state)
+        axios.get(`https://lambda-study-app.herokuapp.com/api/quizzes/${this.props.match.params.id}/questions/${question.id}/response`,{params: option},{headers: {authorization: localStorage.getItem('userToken')}})
+            .then(res=>{
+                console.log(res)
+                this.setState({
+                    grades: [...this.state.grades, {id: question.id, grade: res.data.correct}]
+                })
+                console.log(this.state.grades)
+                })
+            .catch(err=>console.log(err))
+    }
+    startGrading = () => {
+        this.setState({grading: true})
+    }
+
     render(){
         return(
             <div>
@@ -82,6 +120,7 @@ class SingleQuiz extends React.Component {
                     <>
                         <h3>{this.state.quiz.title}</h3>
                         <p>author: {this.state.quiz.author.username}</p>
+                        {this.state.quiz.score? <p>Scored: {this.state.quiz.score} out of {this.state.questions.length}</p>: null}
                     </>
                 }
                 {this.state.isOwned? <button onClick={()=>this.setState({toEdit: !this.state.toEdit})}>{this.state.toEdit? `Don't Edit` : `Edit Quiz`}</button> : null}
@@ -92,7 +131,8 @@ class SingleQuiz extends React.Component {
                     </>
                     : <p>Questions...</p>}
                 {this.state.questions.map(question=>(
-                    <Question toEdit={this.state.toEdit} question={question} match={this.props.match} getQuestions={this.getQuestions}/>))}
+                    <Question toEdit={this.state.toEdit} question={question} match={this.props.match} getQuestions={this.getQuestions} submitAnswer={this.submitAnswer} grading={this.state.grading}/>))}
+                    <button onClick={this.startGrading}>Grade</button>
             </div>
         )
     }
