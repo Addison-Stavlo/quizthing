@@ -44,8 +44,12 @@ class SingleQuiz extends React.Component {
     }
         
     getQuiz = () => {
+        let login = null;
+        if(localStorage.getItem('userToken')){
+            login = {headers: {authorization: localStorage.getItem('userToken')}}
+        }
         axios
-        .get(`https://lambda-study-app.herokuapp.com/api/quizzes/${this.props.match.params.id}`,{headers: {authorization: localStorage.getItem('userToken')}})
+        .get(`https://lambda-study-app.herokuapp.com/api/quizzes/${this.props.match.params.id}`,login)
         .then(res=>{
             this.setState({quiz: res.data})
             console.log(res)
@@ -139,7 +143,7 @@ class SingleQuiz extends React.Component {
                     : <p>Questions...</p>}
                 {this.state.questions.map(question=>(
                     <Question toEdit={this.state.toEdit} question={question} match={this.props.match} getQuestions={this.getQuestions} submitAnswer={this.submitAnswer} grading={this.state.grading}/>))}
-                    <button onClick={this.startGrading}>Grade</button>
+                    <button onClick={this.startGrading}>Submit Grade</button>
             </div>
         )
     }

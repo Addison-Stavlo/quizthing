@@ -14,8 +14,12 @@ class Quizzes extends React.Component {
     }
 
     getQuizzes = () => {
+            let login = null;
+        if(localStorage.getItem('userToken')){
+            login = {headers: {authorization: localStorage.getItem('userToken')}}
+        }
         axios
-        .get('https://lambda-study-app.herokuapp.com/api/quizzes')
+        .get('https://lambda-study-app.herokuapp.com/api/quizzes',login)
         .then(res=> {
             console.log(res.data);
             this.setState({
