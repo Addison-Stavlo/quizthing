@@ -22,7 +22,7 @@ class Login extends React.Component {
                 console.log(res);
                 localStorage.setItem('userToken',res.data.token);
                 localStorage.setItem('userName', res.data.user.username);
-                localStorage.setItem('userID', res.data.user.id)
+                localStorage.setItem('userID', res.data.user.id);
                 this.props.logIn();
                 this.props.history.push('/quizzes');
             })

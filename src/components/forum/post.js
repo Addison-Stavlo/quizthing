@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
+import colors from '../colors/colors';
 
 export default class Post extends React.Component {
     state = {
@@ -83,6 +84,7 @@ const PostContainer = styled.section`
     border-radius: 20px;
     padding: 0 50px 30px;
     box-shadow: 10px 10px 10px 0 lightgray;
+    background: ${colors[3]};
 
     .date {
         text-align: right;
@@ -106,12 +108,14 @@ const PostContainer = styled.section`
         border: 3px ridge lightgray;
         padding: 20px 10px 10px;
         border-radius: 10px;
-        margin-bottom: 15px;
+        margin-bottom: 20px;
+        background: white;
     }
     .comments-box {
         border: 3px inset lightgray;
         padding: 5px;
         border-radius: 5px;
+        background: white;
 
         .comments-header {
             margin: 0;

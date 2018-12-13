@@ -26,6 +26,7 @@ class CreatePost extends React.Component {
     render() {
         return(
             <StyledForm onSubmit={this.createPost}>
+            <h2>Create New Post</h2>
                 <input name='title' placeholder='New Post Title' onChange={this.handleChange} value={this.state.title}/>
                 <textarea name='body' placeholder='Write your new post...' onChange={this.handleChange} value={this.state.body} />
                 <button type='submit'>Create Post</button>

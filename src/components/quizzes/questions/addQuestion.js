@@ -95,6 +95,7 @@ class AddQuestion extends React.Component{
     render() {
         return(
             <StyledForm onSubmit={this.props.edit? this.editQuestion : this.addQuestion}>
+                {this.props.edit? <h2>Edit Question:</h2> : <h2>Add a new Question:</h2>}
                 <input name='question' placeholder='question' value={this.state.question} onChange={this.handleChange}/>
                 <input name='option1' placeholder='option1' value={this.state.option1} onChange={this.handleChange}/>
                 <input name='option2' placeholder='option2' value={this.state.option2} onChange={this.handleChange}/>

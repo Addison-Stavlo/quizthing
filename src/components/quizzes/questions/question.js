@@ -50,7 +50,7 @@ const StyledQuestion = styled.div`
     /* border: 1px solid black; */
     width: 80%;
     max-width: 700px;
-    margin: 0 auto;
+    margin: 20px auto;
     display: flex;
     flex-direction: column;
 

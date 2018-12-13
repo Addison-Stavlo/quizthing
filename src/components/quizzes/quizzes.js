@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
+import colors from '../colors/colors';
 
 class Quizzes extends React.Component {
     state = {
@@ -61,11 +62,16 @@ class Quizzes extends React.Component {
 const QuizContainer = styled.section`
     width: 500px;
     margin: 20px auto;
-    border: 1px solid black;
+    border: 4px ridge lightgray;
     border-radius: 20px;
-    padding: 0 50px 20px;
+    padding: 0 50px 5px;
     cursor: pointer;
     box-shadow: 10px 10px 10px 0 lightgray;
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    background: ${colors[3]};
 
     .quiz-title {
         display: flex;

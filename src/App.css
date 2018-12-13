@@ -1,8 +1,18 @@
-.App {
-  text-align: center;
+body {
+  background: #312C3D;
 }
 
-.App-logo {
+.App {
+  text-align: center;
+  width: 800px;
+  margin: 0 auto;
+  background:white;
+  border: 4px solid #DCD9C8;
+  box-sizing: border-box;
+  min-height: 100vh;
+}
+
+/* .App-logo {
   animation: App-logo-spin infinite 20s linear;
   height: 40vmin;
 }
@@ -29,4 +39,4 @@
   to {
     transform: rotate(360deg);
   }
-}
+} */

@@ -1,6 +1,7 @@
 import React from 'react';
 import {NavLink} from 'react-router-dom';
 import styled from 'styled-components';
+import colors from '../colors/colors';
 
 function NavBar(props) {
 
@@ -38,24 +39,27 @@ const Nav = styled.nav`
     width: 100%;
     position: fixed;
     top: 0;
-    background: teal;
+    left: 0;
+    background: ${colors[1]};
+    
     display: flex;
     justify-content: space-around;
     align-items: center;
     height: 70px;
     font-size: 18px;
-    border-bottom: 3px solid aqua;
+    border-bottom: 4px solid ${colors[2]};
 
     a {
         text-decoration: none;
-        color: black;
+        color: ${colors[2]};
         font-weight: bold;
 
         &:visited {
-            color: black;
+            color: ${colors[3]};
         }
         &.active {
-            color: white;
+            color: ${colors[2]};
+            text-decoration: underline;
         }
     }
 
